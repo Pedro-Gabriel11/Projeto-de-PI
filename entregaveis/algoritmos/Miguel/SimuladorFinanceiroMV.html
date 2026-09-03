@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador financeiro Grupo 2 1ADSA</title>
+</head>
+<body>
+    <h1>Simulador financeiro de custos</h1>
+    <span>Informe o custo do sensor MQ-2:</span>
+    <input type="text" id="custo_sensor" placeholder="Digite aqui"> <br> 
+    <span>Informe o custo de implementação do sensor MQ-2:</span>
+    <input type="text" id="custo_ins" placeholder="Digite aqui"> <br> 
+    <span>Informe o custo de manutenção do site:</span>
+    <input type="text" id="custo_man" placeholder="Digite aqui">
+    <button onclick="verificar()">Verificar custos totais</button>
+    <div id="div_exibir"></div>
+    
+</body>
+</html>
+<script>
+    function verificar() {
+        let csensor = Number(custo_sensor.value)
+        let cins = Number(custo_ins.value)
+        let cman = Number(custo_man.value)
+        let soma = (cman + cins + csensor)
+
+        if(soma <= 1500){
+            div_exibir.innerHTML = `<span style="background-color: green; color: white;">O custo total é de R$${soma.toFixed(2)}</span>`
+        }
+        else if(soma < 3000){
+            div_exibir.innerHTML = `<span style="background-color: yellow; color: black;">O custo total é de R$${soma.toFixed(2)}</span>`
+        }
+        else{
+            div_exibir.innerHTML = `<span style="background-color: red; color: white;">O custo total é de R$${soma.toFixed(2)}</span>`
+        }
+    }
+</script>
