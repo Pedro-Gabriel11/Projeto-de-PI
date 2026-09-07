@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ptBR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira GLP</title>
+</head>
+<body>
+    <h1>Calculadora Financeira - Simulador de orçamento</h1>
+    
+    <h2>Simulação do Sistema</h2>
+    <span>Quantas áreas tem equipamentos que utilizam GLP?</span>
+    <br><br>
+    <input type="text" id="ipt_areas">
+    <br><br>
+    <span> Para esta simulação inicial, consideramos no mínimo um sensor para cada área que utiliza GLP.</span>
+    <br>
+    <span>A quantidade exata de sensores será definida após avaliação técnica do ambiente.</span>
+    <br><br>
+    <button onclick="Calcularinvestimento()">Calcular investimento</button>
+    <br><br>
+    <div id="div_mensagem1"></div>
+    <br><br>
+    <h2>Forma de Pagamento</h2>
+
+    <span>Insira a quantidade de parcelas (1 a 6): </span>
+    <input type="text" id="ipt_parcelas" placeholder="1 Parcela=5% de desconto">
+    <br><br>
+    <button onclick="Calcularpagamento()">Calcular pagamento</button>
+    <br><br>
+    
+    
+    <div id="div_mensagem2"></div>
+</body>
+</html>
+<script>
+
+let InvestimentoTotal = 0
+let Mensalidade = 199
+let MensalidadeAno = Mensalidade * 12
+
+function Calcularinvestimento(){
+    let QtdAreas = Number(ipt_areas.value)
+    let QtdSensores = QtdAreas
+    let PrecoSensor = 350
+    let InstalacaoSensor = 250
+    let PrecoCentral = 450
+    let ConfiguracaoPlataforma = 600
+    let CustoSensores = QtdSensores * PrecoSensor
+    let CustoInstalacao = QtdSensores * InstalacaoSensor
+    let CustoMonitoramentoAno = Mensalidade * 12
+    let Total = CustoSensores + CustoInstalacao + PrecoCentral + ConfiguracaoPlataforma
+    let TotalAno = Total + CustoMonitoramentoAno
+
+    if(QtdAreas <= 0){
+div_mensagem1.innerHTML =`Insira uma quantidade de áreas maior que zero`
+    }else{InvestimentoTotal = Total
+div_mensagem1.innerHTML = `Quantidade estimada de sensores: ${QtdSensores}
+    <br><br>
+        Custo dos sensores: R$ ${CustoSensores.toFixed(2)}
+    <br>
+        Instalação dos sensores: R$ ${CustoInstalacao.toFixed(2)}
+    <br>
+        Central de comunicação: R$ ${PrecoCentral.toFixed(2)}
+    <br>
+        Configuração da plataforma: R$ ${ConfiguracaoPlataforma.toFixed(2)}
+    <br><br>
+        Investimento inicial: R$ ${InvestimentoTotal.toFixed(2)}
+    <br><br>
+        Monitoramento mensal: R$ ${Mensalidade.toFixed(2)}
+    <br>
+        Monitoramento durante 12 meses: R$ ${CustoMonitoramentoAno.toFixed(2)}
+    <br><br>
+        Custo total estimado no primeiro ano: R$ ${TotalAno.toFixed(2)}
+    <br><br>
+        A quantidade mostrada é uma estimativa inicial. O orçamento definitivo será feito após avaliação técnica.`
+    }
+}
+function Calcularpagamento(){
+    let Parcelas = Number(ipt_parcelas.value)
+    let ValorParcela = InvestimentoTotal / Parcelas
+    let ParcelasComMonitoramento = ValorParcela + MensalidadeAno
+    let DescontoParcela = ValorParcela * 0.95
+    let MonitoramentoDesconto = ParcelasComMonitoramento * 0.95
+
+
+
+if(InvestimentoTotal <= 0){
+     div_mensagem2.innerHTML =`Calcule primeiro o investimento do sistema`
+}else if(Parcelas <= 0){
+     div_mensagem2.innerHTML =`Insira uma quantidade de parcelas maior que zero`
+}else if(Parcelas > 6){
+     div_mensagem2.innerHTML =`O investimento inicial pode ser dividido em no máximo 6 parcelas`
+}else if(Parcelas == 1){    
+     div_mensagem2.innerHTML = `Investimento inicial: R$ ${InvestimentoTotal.toFixed(2)}
+        <br>
+        Quantidade de parcelas: ${Parcelas}
+        <br>
+        Valor de cada parcela: R$ ${DescontoParcela.toFixed(2)} (Sem monitoramento)
+        <br><br>
+        Valor da parcela com o monitoramento incluso: R$ ${MonitoramentoDesconto.toFixed(2)} (Monitoramento por 12 meses) `
+}else{
+     div_mensagem2.innerHTML = `Investimento inicial: R$ ${InvestimentoTotal.toFixed(2)}
+        <br>
+        Quantidade de parcelas: ${Parcelas}
+        <br>
+        Valor de cada parcela: R$ ${ValorParcela.toFixed(2)} (Sem monitoramento)
+        <br><br>
+        Valor da parcela com o monitoramento incluso: R$ ${ParcelasComMonitoramento.toFixed(2)} (Monitoramento por 12 meses)`
+    }
+}
+</script>
