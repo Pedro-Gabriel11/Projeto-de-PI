@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Impacto Financeiro</title>
+  </head>
+
+  <body>
+    <h1>
+      Calculadora de Impacto Financeiro de um Acidente com Vazamento de gás GLP
+    </h1>
+
+    <span>Valor dos equipamentos: R$ </span>
+    <input type="text" id="ipt_equipamentos" /> <br /><br />
+
+    <span>Valor dos materiais e da estrutura: R$ </span>
+    <input type="text" id="ipt_estrutura" /> <br /><br />
+
+    <span>Valor dos produtos e estoque: R$ </span>
+    <input type="text" id="ipt_estoque" /> <br /><br />
+
+    <span>Custo de limpeza e recuperação: R$ </span>
+    <input type="text" id="ipt_limpeza" /> <br /><br />
+
+    <span>Custo de manutenção e reparos: R$ </span>
+    <input type="text" id="ipt_reparos" /> <br /><br />
+
+    <span>Quantidade de dias de paralisação: </span>
+    <input type="text" id="ipt_dias" /> <br /><br />
+
+    <span>Faturamento médio por dia: R$ </span>
+    <input type="text" id="ipt_faturamento" /> <br /><br />
+
+    <span>Indenizações e custos legais estimados: R$ </span>
+    <input type="text" id="ipt_indenizacoes" /> <br /><br />
+
+    <span>Quantidade de pessoas potencialmente expostas: </span>
+    <input type="text" id="ipt_pessoas" /> <br /><br />
+
+    <span>Investimento no sistema: R$ </span>
+    <input type="text" id="ipt_investimento" /> <br /><br />
+
+    <button onclick="calcular()">Calcular Impacto</button>
+
+    <div id="div_mensagem"></div>
+  </body>
+</html>
+
+<script>
+  function calcular() {
+    let equipamentos = Number(ipt_equipamentos.value);
+    let estrutura = Number(ipt_estrutura.value)
+    let estoque = Number(ipt_estoque.value);
+    let limpeza = Number(ipt_limpeza.value)
+    let reparos = Number(ipt_reparos.value);
+    let dias = Number(ipt_dias.value)
+    let faturamento = Number(ipt_faturamento.value);
+    let indenizacoes = Number(ipt_indenizacoes.value);
+    let pessoas = Number(ipt_pessoas.value)
+    let investimento = Number(ipt_investimento.value)
+
+    let prejuizoMaterial =
+      equipamentos + estrutura + estoque + limpeza + reparos
+
+    let faturamentoNaoRealizado = dias * faturamento;
+
+    let impactoHumanoLegal = indenizacoes;
+
+    let prejuizoTotal =
+      prejuizoMaterial + faturamentoNaoRealizado + impactoHumanoLegal;
+
+    let porcentagemInvestimento = (investimento / prejuizoTotal) * 100;
+
+    let mensagem = `<h2>Resultado da Simulação</h2>
+
+            Prejuízo com equipamentos: R$ ${equipamentos} <br>
+            Prejuízo com estrutura e materiais: R$ ${estrutura} <br>
+            Prejuízo com estoque e produtos: R$ ${estoque} <br>
+            Custo de limpeza e recuperação: R$ ${limpeza} <br>
+            Custo de manutenção e reparos: R$ ${reparos} <br><br>
+
+            <b>Total de danos materiais: R$ ${prejuizoMaterial}</b> <br><br>
+
+            Dias de paralisação: ${dias} dias <br>
+            Faturamento médio por dia: R$ ${faturamento} <br>
+            Faturamento não realizado: R$ ${faturamentoNaoRealizado} <br><br>
+
+            Indenizações e custos legais estimados: R$ ${indenizacoes} <br><br>
+
+            <b>Impacto financeiro estimado de 1 acidente: R$ ${prejuizoTotal}</b> <br><br>
+
+            Pessoas potencialmente expostas: ${pessoas} <br><br>
+
+            Investimento no sistema: R$ ${investimento} <br>
+            O investimento representa ${porcentagemInvestimento.toFixed(2)}% do impacto financeiro estimado de um acidente.`
+
+    div_mensagem.innerHTML = mensagem;
+  }
+</script>
