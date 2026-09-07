@@ -1,11 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
-</head>
-<body>
-    <h1>Versão 1</h1>
-</body>
+<html lang="ptBR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Custos com GLP</title>
+  </head>
+
+  <body>
+    <b>SIMULADOR DE CUSTOS COM GLP</b> <br />
+
+    Insira quantas trocas de GLP são feitas por mês:
+    <input type="text" id="ipt_trocas" placeholder="Ex: 10"><br>
+
+    Insira o preço de cada troca:
+    <input type="text" id="ipt_preco" placeholder="Ex: 120"><br>
+
+    Insira quantas horas a cozinha funciona por dia:
+    <input type="text" id="ipt_horas" placeholder="Ex: 10"><br>
+
+    Insira quantos dias a cozinha funciona por mês:
+    <input type="text" id="ipt_dias" placeholder="Ex: 26"><br>
+
+    Insira o custo médio de um reparo:
+    <input type="text" id="ipt_reparo" placeholder="Ex: 800"><br>
+
+    Insira o valor médio de produtos perdidos:
+    <input type="text" id="ipt_produtos" placeholder="Ex: 500"><br>
+
+    Insira quantas ocorrências estima ter no ano:
+    <input type="text" id="ipt_ocorrencias" placeholder="Ex: 2"><br>
+
+    <button onclick="simular()">Simular</button>
+
+    <div id="div_exibir"></div>
+    <div id="div_exibir2"></div>
+    <div id="div_exibir3"></div>
+  </body>
 </html>
+
+<script>
+  function simular() {
+
+    let trocas = Number(ipt_trocas.value);
+    let preco = Number(ipt_preco.value);
+    let horas = Number(ipt_horas.value);
+    let dias = Number(ipt_dias.value);
+    let reparo = Number(ipt_reparo.value);
+    let produtos = Number(ipt_produtos.value);
+    let ocorrencias = Number(ipt_ocorrencias.value);
+
+    let custoMensal = trocas * preco;
+
+    let custoAnual = custoMensal * 12;
+
+    let horasMensais = horas * dias;
+
+    let custoOcorrencia = reparo + produtos;
+
+    let custoOcorrenciasAno = custoOcorrencia * ocorrencias;
+
+    let custoTotal = custoAnual + custoOcorrenciasAno;
+
+    div_exibir.innerHTML = ``;
+    div_exibir2.innerHTML = ``;
+    div_exibir3.innerHTML = ``;
+
+    div_exibir.innerHTML = `
+      <b>RESULTADO DA SIMULAÇÃO</b><br><br>
+
+      Custo mensal com GLP: R$ ${custoMensal.toFixed(2)}<br>
+      Custo anual com GLP: R$ ${custoAnual.toFixed(2)}<br>
+      Horas de funcionamento por mês: ${horasMensais} horas<br>
+      Custo de uma ocorrência: R$ ${custoOcorrencia.toFixed(2)}<br>
+      Custo das ocorrências no ano: R$ ${custoOcorrenciasAno.toFixed(2)}<br>
+      Custo total estimado no ano: R$ ${custoTotal.toFixed(2)}<br><br>
+    `;
+
+    if (custoMensal <= 2000) {
+      let mensagem = `O custo mensal com GLP é considerado <b>baixo</b>.`;
+      div_exibir2.innerHTML = mensagem;
+
+    } else if (custoMensal <= 5000) {
+      let mensagem = `O custo mensal com GLP é considerado <b>moderado</b>.`;
+      div_exibir2.innerHTML = mensagem;
+
+    } else {
+
+      let mensagem = `O custo mensal com GLP é considerado <b>alto</b>.`;
+      div_exibir2.innerHTML = mensagem;
+    }
+
+    if (horasMensais <= 160) {
+      let mensagem = `A utilização da cozinha é considerada <b>baixa</b>.`;
+      div_exibir3.innerHTML = mensagem;
+
+    } else if (horasMensais <= 300) {
+      let mensagem = `A utilização da cozinha é considerada <b>moderada</b>.`;
+      div_exibir3.innerHTML = mensagem;
+
+    } else {
+      let mensagem = `A utilização da cozinha é considerada <b>alta</b>.`;
+      div_exibir3.innerHTML = mensagem;
+    }
+  }
+</script>
