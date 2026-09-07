@@ -79,7 +79,7 @@ div_mensagem1.innerHTML = `Quantidade estimada de sensores: ${QtdSensores}
 function Calcularpagamento(){
     let Parcelas = Number(ipt_parcelas.value)
     let ValorParcela = InvestimentoTotal / Parcelas
-    let ParcelasComMonitoramento = ValorParcela + MensalidadeAno
+    let ParcelasComMonitoramento = (InvestimentoTotal + MensalidadeAno) / Parcelas
     let DescontoParcela = ValorParcela * 0.95
     let MonitoramentoDesconto = ParcelasComMonitoramento * 0.95
 
