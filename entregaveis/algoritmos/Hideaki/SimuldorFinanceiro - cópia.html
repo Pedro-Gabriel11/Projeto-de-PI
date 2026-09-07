@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ptBR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador Financeiro V1</title>
+  </head>
+  <body>
+    <h1>CALCULADORA DE NÍVEL DE RISCO ⚠️</h1>
+    <h2>MONITORAMENTO DE GÁS GLP [SIMULADOR]</h2>
+
+    <p>
+      O que é PPM? <br />
+      * PPM significa partes por milhão, ou seja a quantidade de
+      <b>gás</b> presente no ar.
+    </p>
+
+    <p>
+      O que é LEL?<br />
+      *Limite Inferior de Explosividade, quantidade mínima suficiente para gerar
+      uma <b>explosão</b> no ar quando existe uma fonte de ignição.
+    </p>
+    <br />
+
+    <h3>Indicador de Explosão</h3>
+    <p>
+      0[<span style="color: green;">PPM</span>]------------------------------------------------------21.000[<span style="color: red;">PPM</span>]<br />
+      0%-----------------------------------------------------------100% do LEL
+    </p>
+    <p></p>
+    <br />
+    <label for="ipt_valor_sensor">Valor detectado pelo sensor[/PPM]:</label>
+    <input type="text" id="ipt_valor_sensor" />
+    <!-- Valor do ppm simulado! Pois não tenho acesso ainda ao sensor para poder fazer a conversão real em ppm... -->
+
+    <button onclick="calcular()">Simular</button>
+    <div id="div_msg"></div>
+    <br><br>
+    <h2>Consumo do Sistema</h2>
+    <br><br>
+    <label for="ipt_potencia">Potência do Sistema [W]:</label>
+    <input type="text" id="ipt_potencia">
+    <br><br>
+    <label for="ipt_horas">Horas de Funcionamento por dia:</label>
+    <input type="text" id="ipt_horas">
+    <br><br>
+    <label for="ipt_dia">Dias de Funcionamento por mês:</label>
+    <input type="text" id="ipt_dia">
+    <br><br>
+    <label for="ipt_tarifa">Tarifa de Energia [R$/KWh]:</label>
+    <input type="text" id="ipt_tarifa">
+    <br><br>
+    <button onclick="simular()">Calcular Consumo</button>
+    <br>
+    <div id="div_exibir"></div>
+    <br><br>
+
+    <span style="color: red;">OBS: ISSO É APENAS UM VALOR <b>APROXIMADO<b></span>
+
+     
+    
+  </body>
+</html>
+<script>
+  function calcular() {
+    let sensor = Number(ipt_valor_sensor.value);
+    let lel = (sensor / 21000) * 100;
+
+    if (lel == 0) {
+      div_msg.innerHTML = `Sem gás [${lel.toFixed(0)}%]`;
+    } else if (sensor < 0) {
+      alert("[ERROR] INSIRA UM VALOR VÁLIDO");
+    } else if (sensor > 21000) {
+      alert("[ERROR] INSIRA UM VALOR VÁLIDO");
+    } else if (lel <= 10) {
+      div_msg.innerHTML = `<span style='color: green'>Normal </span style>🟢[${lel.toFixed(
+        0
+      )}%]`;
+    } else if (lel <= 25) {
+      div_msg.innerHTML = `<span style='color: yellow; background-color: red;'>Atenção </span style>🟡[${lel.toFixed(
+        0
+      )}%]`;
+    } else if (lel <= 50) {
+      div_msg.innerHTML = `<span style='color: orange'>Alerta </span style>🟠[${lel.toFixed(
+        0
+      )}%]`;
+    } else if (lel > 50) {
+      div_msg.innerHTML = `<span style='color:red'>Perigo </span style>🔴[${lel.toFixed(
+        0
+      )}%]`;
+    }
+  }
+
+  function simular(){
+    let potenciaW = Number(ipt_potencia.value)
+    let horas_consumo = Number(ipt_horas.value)
+    let dias_funcionamento_mes = Number(ipt_dia.value)
+    let tarifa = Number(ipt_tarifa.value)
+    let kw = potenciaW / 1000
+    let kwh = kw * horas_consumo * dias_funcionamento_mes 
+    let consumo_mensal = kwh * tarifa
+
+    div_exibir.innerHTML = `Consumo Mensal: ${kwh.toFixed(2)} KWh<br>
+                         Custo Mensal: R$ ${consumo_mensal.toFixed(2)} `
+  }
+</script>
