@@ -19,26 +19,41 @@
     <b>Insira o custo médio com equipamentos:</b> <br> <br>
     <input type="text" id="ipt_custo"> <br> <br>
     <b>Insira o custo com produtos:</b> <br> <br>
-    <input type="text" id="ipt_produtos"> <br> <br>
+    <input type="text" id="ipt_produto"> <br> <br>
     <b>Insira os custos com manuntenção:</b> <br> <br>
     <input type="text" id="ipt_manutencao"> <br> <br>
     <b>Insira a quantidade de dias com o estabelecimento fechado:</b> <br> <br>
     <input type="text" id="ipt_diasFechado"> <br> <br>
     <b>Insira o faturamento médio diário:</b> <br> <br>
     <input type="text" id="ipt_faturamento"> <br> <br>
-    <button id="calcular()">Analisar gastos</button>
+    <button id="analisar()">Analisar gastos</button>
+    <div id="div_msg"></div>
 
     <h2>Custos com a instalação e manuntenção do serviço:</h2> <br>
+
+    <h2>Insira a quantidade de sensores a serem instalados no local:</h2> <br>
+    <input type="text" id="ipt_sensor"> <br>
+
+    <button id="calcular()">Calcular gastos com sensor</button> <br>
+    <div id="div_msg2"></div>
 
   </body>
 </html>
 
 <script>
-    function calcular() {
+    function analisar() {
         let custo = Number(ipt_custo.value)
-        let produto = Number(ipt_produtos.value)
+        let produto = Number(ipt_produto.value)
         let manutencao = Number(ipt_manutencao.value)
         let diasFechado = Number(ipt_diasFechado.value)
         let faturamento = Number(ipt_faturamento.value)
+        let faturamentoDias = diasFechado * faturamento
+        let total = custo + produto + manutencao + faturamentoDias
+        let mensagem = `O cálculo total de prejuízos por um possível vazamento de gáses seria de ${total}`
+        
+        div_msg.innerHTML = mensagem;
+    }
+    function calcular2() {
+      let sensor = Number(ipt_sensor.value)
     }
 </script>
