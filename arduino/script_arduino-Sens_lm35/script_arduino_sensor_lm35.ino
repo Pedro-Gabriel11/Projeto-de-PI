@@ -17,5 +17,6 @@ void loop() {
   Serial.print(temperaturaCelsius);
   Serial.println(" C");
 
+  // Definição da frequência de leitura em ms (2 segundos)
  delay(2000); 
 }
