@@ -26,15 +26,14 @@
     <input type="text" id="ipt_diasFechado"> <br> <br>
     <b>Insira o faturamento médio diário:</b> <br> <br>
     <input type="text" id="ipt_faturamento"> <br> <br>
-    <button id="analisar()">Analisar gastos</button>
+    <button onclick="analisar()">Analisar gastos</button>
     <div id="div_msg"></div>
 
     <h2>Custos com a instalação e manuntenção do serviço:</h2> <br>
 
-    <h2>Insira a quantidade de sensores a serem instalados no local:</h2> <br>
-    <input type="text" id="ipt_sensor"> <br>
-
-    <button id="calcular()">Calcular gastos com sensor</button> <br>
+    <b>Insira a quantidade de sensores a serem instalados no local:</b> <br> <br>
+    <input type="text" id="ipt_sensor"> <br> <br>
+    <button onclick="calcular()">Calcular gastos com sensor</button> <br>
     <div id="div_msg2"></div>
 
   </body>
@@ -53,7 +52,16 @@
         
         div_msg.innerHTML = mensagem;
     }
-    function calcular2() {
+    function calcular() {
       let sensor = Number(ipt_sensor.value)
+      let precoSensor = sensor * 250
+      let precoInstal =  500
+      let precoManutencao = sensor * 400
+      let mensagem = `Com a quantidade de ${sensor} sensores, os valores seriam de: <br>
+      R$${precoSensor} com o preço de cada sensor <br>
+      R$${precoInstal} com o preço de instalação <br>
+      R$${precoManutencao} com os preços de manutenção`
+
+      div_msg2.innerHTML = mensagem;
     }
 </script>
