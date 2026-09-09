@@ -1,3 +1,14 @@
+/*
+Grupo 2 - AnzenTech
+Gabriel Figueiredo
+Kauã Hideaki
+Miguel Vargas
+Patrick Scaglia
+Paulo Henrique
+Pedro Gabriel
+Thiago Prado
+*/
+-- TABELA 1
 CREATE DATABASE tabelasGLP;
 
 USE tabelasGLP;
