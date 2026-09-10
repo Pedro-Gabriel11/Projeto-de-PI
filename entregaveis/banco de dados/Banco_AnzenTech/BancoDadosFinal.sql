@@ -37,6 +37,10 @@ INSERT INTO cadastro VALUES
 
 SELECT * FROM cadastro;
 
+SELECT * FROM cadastro WHERE situacaoMonitoramento = 'Ativo';
+
+SELECT * FROM cadastro WHERE cidade = 'Sao Paulo';
+
 select concat('O estabelecimento ', estabelecimento, ' do representante ', responsavel, ', residido na cidade de ', cidade, ', está com a situação dos senores ', situacaoMonitoramento) as 'Situação cadastral' from cadastro;
 
 -- TABELA 2
@@ -66,6 +70,10 @@ INSERT INTO sensor VALUES
 
 SELECT * FROM sensor;
 
+SELECT * FROM sensor WHERE dataInstalacao > '2026-08-01';
+
+SELECT * FROM sensor WHERE statusSensor = 'Manutencao';
+
 select concat('O sensor ', idsensor, ' do modelo', modelosensor, ', está instalado em ', localinstalacao, ', desde o dia ', datainstalacao, ', tendo sido feita a última manutenção no dia ', ultimaManutencao, ', e seu status atual é ', statussensor) as 'Informações do sensor' from sensor;
 
 -- TABELA 3
@@ -93,4 +101,8 @@ INSERT INTO leituraSensor VALUES
 
 SELECT * FROM leituraSensor;
 
-select concat('O sensor ', idsensor, ' captou um ppm de ', ppm, ', na data de', dataHora, ', e sua situação atual é ', situacao) as Leitura from leiturasensor;
+SELECT * FROM leituraSensor WHERE situacao = 'atenção';
+
+SELECT * FROM leituraSensor WHERE ppm > 1000;
+
+SELECT concat('O sensor ', idsensor, ' captou um ppm de ', ppm, ', na data de', dataHora, ', e sua situação atual é ', situacao) AS Leitura FROM leiturasensor;
