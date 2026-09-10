@@ -1,164 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ptBR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador Financeiro V1</title>
+    <title>Simulador Financeiro Anzen</title>
   </head>
+
   <body>
-    <h1>CALCULADORA DE NÍVEL DE RISCO ⚠️</h1>
-    <h2>MONITORAMENTO DE GÁS GLP [SIMULADOR]</h2>
+    <h1>SIMULADOR FINANCEIRO GLP</h1>
 
-    <p>
-      O que é PPM? <br />
-      * PPM significa partes por milhão, ou seja a quantidade de
-      <b>gás</b> presente no ar.
-    </p>
+    <h2>Gastos com GLP</h2>
 
-    <p>
-      O que é LEL?<br />
-      *Limite Inferior de Explosividade, quantidade mínima suficiente para gerar
-      uma <b>explosão</b> no ar quando existe uma fonte de ignição.
-    </p>
-    <br />
+    Insira quantas trocas de gás são feitas por mês:
+    <input type="text" id="ipt_trocas" placeholder="Ex: 10" /><br /><br />
 
-    <h3>Indicador de Explosão</h3>
-    <p>
-      0[<span style="color: green;">PPM</span>]------------------------------------------------------21.000[<span style="color: red;">PPM</span>]<br />
-      0%-----------------------------------------------------------100% do LEL
-    </p>
-    <p></p>
-    <br />
-    <label for="ipt_valor_sensor">Valor detectado pelo sensor[/PPM]:</label>
-    <input type="text" id="ipt_valor_sensor" />
-    <!-- Valor do ppm simulado! Pois não tenho acesso ainda ao sensor para poder fazer a conversão real em ppm... -->
+    Insira o preço de cada troca:
+    <input type="text" id="ipt_preco" placeholder="Ex: 450" /><br /><br />
 
-    <button onclick="calcular()">Simular</button>
-    <div id="div_msg"></div>
-    <br><br>
-    <h1>
-     Impacto Financeiro em Caso de Acidentes 
-    </h1>
+    <h2>Manutenção</h2>
 
-    <span>Valor dos equipamentos: R$ </span>
-    <input type="text" id="ipt_equipamentos" /> <br /><br />
+    Insira o custo médio de uma manutenção:
+    <input type="text" id="ipt_manutencao" placeholder="Ex: 800" /><br /><br />
 
-    <span>Valor dos materiais e da estrutura: R$ </span>
-    <input type="text" id="ipt_estrutura" /> <br /><br />
+    Insira quantas manutenções são feitas por mês:
+    <input
+      type="text"
+      id="ipt_qtd_manutencao"
+      placeholder="Ex: 1"
+    /><br /><br />
 
-    <span>Valor dos produtos e estoque: R$ </span>
-    <input type="text" id="ipt_estoque" /> <br /><br />
+    <h2>Consumo de Energia do Sistema</h2>
 
-    <span>Custo de limpeza e recuperação: R$ </span>
-    <input type="text" id="ipt_limpeza" /> <br /><br />
+    Insira a potência do sistema [W]:
+    <input type="text" id="ipt_potencia" placeholder="Ex: 50" /><br /><br />
 
-    <span>Custo de manutenção e reparos: R$ </span>
-    <input type="text" id="ipt_reparos" /> <br /><br />
+    Insira a tarifa de energia [R$/KWh]:
+    <input type="text" id="ipt_tarifa" placeholder="Ex: 0.90" /><br /><br />
 
-    <span>Quantidade de dias de paralisação: </span>
-    <input type="text" id="ipt_dias" /> <br /><br />
+    <h2>Período da Simulação</h2>
 
-    <span>Faturamento médio por dia: R$ </span>
-    <input type="text" id="ipt_faturamento" /> <br /><br />
+    Selecione por quanto tempo deseja simular:
 
-    <span>Indenizações e custos legais estimados: R$ </span>
-    <input type="text" id="ipt_indenizacoes" /> <br /><br />
+    <select id="ipt_periodo">
+      <option value="1">1 mês</option>
+      <option value="2">2 meses</option>
+      <option value="3">3 meses</option>
+      <option value="4">4 meses</option>
+      <option value="5">5 meses</option>
+      <option value="6">6 meses</option>
+      <option value="7">7 meses</option>
+      <option value="8">8 meses</option>
+      <option value="9">9 meses</option>
+      <option value="10">10 meses</option>
+      <option value="11">11 meses</option>
+      <option value="12">12 meses</option>
+    </select>
 
-    <span>Quantidade de pessoas potencialmente expostas: </span>
-    <input type="text" id="ipt_pessoas" /> <br /><br />
+    <br /><br />
 
-    <span>Investimento no sistema: R$ </span>
-    <input type="text" id="ipt_investimento" /> <br /><br />
+    <button onclick="simular()">Simular</button>
 
-    <button onclick="simular()">Calcular Impacto</button>
+    <br /><br />
 
-    <div id="div_mensagem"></div>
-    <br><br>
-
-  
-
-    <span style="color: red;">OBS: ISSO É APENAS UM VALOR <b>APROXIMADO<b></span>
-
-     
-    
+    <div id="div_exibir"></div>
   </body>
 </html>
+
 <script>
-  function calcular() {
-    let sensor = Number(ipt_valor_sensor.value);
-    let lel = (sensor / 21000) * 100;
-
-    if (lel == 0) {
-      div_msg.innerHTML = `Sem gás [${lel.toFixed(0)}%]`;
-    } else if (sensor < 0) {
-      alert("[ERROR] INSIRA UM VALOR VÁLIDO");
-    } else if (sensor > 21000) {
-      alert("[ERROR] INSIRA UM VALOR VÁLIDO");
-    } else if (lel <= 10) {
-      div_msg.innerHTML = `<span style='color: green'>Normal </span style>🟢[${lel.toFixed(
-        0
-      )}%]`;
-    } else if (lel <= 25) {
-      div_msg.innerHTML = `<span style='color: yellow; background-color: red;'>Atenção </span style>🟡[${lel.toFixed(
-        0
-      )}%]`;
-    } else if (lel <= 50) {
-      div_msg.innerHTML = `<span style='color: orange'>Alerta </span style>🟠[${lel.toFixed(
-        0
-      )}%]`;
-    } else if (lel > 50) {
-      div_msg.innerHTML = `<span style='color:red'>Perigo </span style>🔴[${lel.toFixed(
-        0
-      )}%]`;
-    }
-  }
   function simular() {
-    let equipamentos = Number(ipt_equipamentos.value);
-    let estrutura = Number(ipt_estrutura.value)
-    let estoque = Number(ipt_estoque.value);
-    let limpeza = Number(ipt_limpeza.value)
-    let reparos = Number(ipt_reparos.value);
-    let dias = Number(ipt_dias.value)
-    let faturamento = Number(ipt_faturamento.value);
-    let indenizacoes = Number(ipt_indenizacoes.value);
-    let pessoas = Number(ipt_pessoas.value)
-    let investimento = Number(ipt_investimento.value)
+    let trocas = Number(ipt_trocas.value);
+    let preco = Number(ipt_preco.value);
 
-    let prejuizoMaterial =
-      equipamentos + estrutura + estoque + limpeza + reparos
+    let manutencao = Number(ipt_manutencao.value);
+    let qtdManutencao = Number(ipt_qtd_manutencao.value);
 
-    let faturamentoNaoRealizado = dias * faturamento;
+    let potenciaW = Number(ipt_potencia.value);
+    let tarifa = Number(ipt_tarifa.value);
 
-    let impactoHumanoLegal = indenizacoes;
+    let periodo = Number(ipt_periodo.value);
 
-    let prejuizoTotal =
-      prejuizoMaterial + faturamentoNaoRealizado + impactoHumanoLegal;
+    let textoPeriodo = "meses";
 
-    let porcentagemInvestimento = (investimento / prejuizoTotal) * 100;
+    if (periodo == 1) {
+      textoPeriodo = "mês";
+    }
 
-    let mensagem = `<h2>Resultado da Simulação</h2>
+    let custoMensalGLP = trocas * preco;
 
-            Prejuízo com equipamentos: R$ ${equipamentos} <br>
-            Prejuízo com estrutura e materiais: R$ ${estrutura} <br>
-            Prejuízo com estoque e produtos: R$ ${estoque} <br>
-            Custo de limpeza e recuperação: R$ ${limpeza} <br>
-            Custo de manutenção e reparos: R$ ${reparos} <br><br>
+    let custoPeriodoGLP = custoMensalGLP * periodo;
 
-            <b>Total de danos materiais: R$ ${prejuizoMaterial}</b> <br><br>
+    let custoMensalManutencao = manutencao * qtdManutencao;
 
-            Dias de paralisação: ${dias} dias <br>
-            Faturamento médio por dia: R$ ${faturamento} <br>
-            Faturamento não realizado: R$ ${faturamentoNaoRealizado} <br><br>
+    let custoPeriodoManutencao = custoMensalManutencao * periodo;
 
-            Indenizações e custos legais estimados: R$ ${indenizacoes} <br><br>
+    let potenciaKW = potenciaW / 1000;
 
-            <b>Impacto financeiro estimado de 1 acidente: R$ ${prejuizoTotal}</b> <br><br>
+    let consumoMensal = potenciaKW * 24 * 30;
 
-            Pessoas potencialmente expostas: ${pessoas} <br><br>
+    let consumoPeriodo = consumoMensal * periodo;
 
-            Investimento no sistema: R$ ${investimento} <br>
-            O investimento representa ${porcentagemInvestimento.toFixed(2)}% do impacto financeiro estimado de um acidente.`
+    let custoMensalEnergia = consumoMensal * tarifa;
 
-    div_mensagem.innerHTML = mensagem;
+    let custoPeriodoEnergia = custoMensalEnergia * periodo;
+
+    let gastoTotalGeral =
+      custoPeriodoGLP + custoPeriodoManutencao + custoPeriodoEnergia;
+
+    div_exibir.innerHTML = `
+
+      <h2>RESULTADO DA SIMULAÇÃO</h2>
+
+      <b>Período escolhido: ${periodo} ${textoPeriodo}</b>
+
+      <br><br>
+
+      <h3>Gastos com GLP</h3>
+
+      Custo mensal com GLP:
+      R$ ${custoMensalGLP.toFixed(2)}
+
+      <br>
+
+      Custo com GLP no período:
+      R$ ${custoPeriodoGLP.toFixed(2)}
+
+      <br><br>
+
+      <h3>Manutenção</h3>
+
+      Custo de manutenção no período:
+      R$ ${custoPeriodoManutencao.toFixed(2)}
+
+      <br><br>
+
+      <h3>Consumo de Energia</h3>
+
+      Consumo mensal do sistema:
+      ${consumoMensal.toFixed(2)} KWh
+
+      <br>
+
+      Consumo no período:
+      ${consumoPeriodo.toFixed(2)} KWh
+
+      <br>
+
+      Custo de energia no período:
+      R$ ${custoPeriodoEnergia.toFixed(2)}
+
+      <br><br>
+
+      <h1><b>
+      GASTO TOTAL GERAL:
+      R$ ${gastoTotalGeral.toFixed(2)}
+      </b></h1>
+
+    `;
   }
 </script>
