@@ -8,11 +8,13 @@ Paulo Henrique
 Pedro Gabriel
 Thiago Prado
 */
--- TABELA 1
-CREATE DATABASE tabelasGLP;
 
+-- Criando e selecionando o banco de dados
+CREATE DATABASE tabelasGLP;
 USE tabelasGLP;
 
+-- TABELA 1
+-- Criação da tabela cadastro
 CREATE TABLE cadastro (
 idCadastro INT PRIMARY KEY AUTO_INCREMENT,
 estabelecimento VARCHAR(50),
@@ -23,8 +25,9 @@ dataCadastro DATE,
 situacaoMonitoramento VARCHAR(20) CHECK
 (situacaoMonitoramento IN ('Ativo', 'Inativo', 'Em instalacao'))
 ) AUTO_INCREMENT = 1;
+DESC cadastro;
 
-
+-- Inserindo dados na tabela
 INSERT INTO cadastro VALUES
 (default, 'Temprerani Cucina','Davi Temperani', 
 '11987654321', 'Sao Paulo','2026-09-06', 'Ativo'),
@@ -35,6 +38,7 @@ INSERT INTO cadastro VALUES
 (default, 'Figo','Nelson Lima', '11954621875', 
 'Sao Bernardo','2026-08-25', 'Ativo');
 
+-- Selects na tabela cadastro
 SELECT * FROM cadastro;
 
 SELECT * FROM cadastro WHERE situacaoMonitoramento = 'Ativo';
@@ -44,7 +48,7 @@ SELECT * FROM cadastro WHERE cidade = 'Sao Paulo';
 select concat('O estabelecimento ', estabelecimento, ' do representante ', responsavel, ', residido na cidade de ', cidade, ', está com a situação dos senores ', situacaoMonitoramento) as 'Situação cadastral' from cadastro;
 
 -- TABELA 2
-
+-- Criando tabela dos dados técnicos do sensor
 CREATE TABLE sensor (
 idSensor INT PRIMARY KEY AUTO_INCREMENT,
 clienteEmpresa VARCHAR(50),
@@ -56,8 +60,9 @@ statusSensor VARCHAR(20) CHECK
 (statusSensor IN ('Ativo', 'Manutencao', 'Inativo')),
 ultimaManutencao DATE
 ) AUTO_INCREMENT = 1;
+DESC sensor;
 
-
+-- Inserindo dados na tabela sensor
 INSERT INTO sensor VALUES
 (default, 'Temprerani Cucina','Sensor GLP A1', 
 'Area de coccao','2026-08-21', 60.00, 'Ativo', '2026-08-21'),
@@ -68,6 +73,7 @@ INSERT INTO sensor VALUES
 (default,  'Figo', 'Sensor GLP B2', 'Área de Fornos',
 '2026-08-21', 65.00, 'Manutencao', '2026-09-06');
 
+-- Selects na tabela sensor
 SELECT * FROM sensor;
 
 SELECT * FROM sensor WHERE dataInstalacao > '2026-08-01';
@@ -77,7 +83,7 @@ SELECT * FROM sensor WHERE statusSensor = 'Manutencao';
 select concat('O sensor ', idsensor, ' do modelo', modelosensor, ', está instalado em ', localinstalacao, ', desde o dia ', datainstalacao, ', tendo sido feita a última manutenção no dia ', ultimaManutencao, ', e seu status atual é ', statussensor) as 'Informações do sensor' from sensor;
 
 -- TABELA 3
-
+-- Criando a tabela das leturas do sensor
 CREATE TABLE leituraSensor (
 idLeitura INT PRIMARY KEY AUTO_INCREMENT,
 idSensor INT,
@@ -87,8 +93,9 @@ situacao VARCHAR(20),
 CONSTRAINT chkPpm CHECK (ppm >= 0),
 CONSTRAINT chkSituacao CHECK (situacao IN ('normal', 'atenção', 'perigoso'))
 ) AUTO_INCREMENT = 1;
+DESC leituraSensor;
 
-
+-- Inserindo dados na tabela leitoras do sensor
 INSERT INTO leituraSensor VALUES
 (default, 1, 200.00, '2026-09-07 08:00:00', 'normal'),
 (default, 1, 250.00, '2026-09-07 09:00:00', 'normal'),
@@ -99,10 +106,40 @@ INSERT INTO leituraSensor VALUES
 (default, 4, 1500.00, '2026-09-07 11:30:00', 'perigoso'),
 (default, 5, 300.00, '2026-09-07 12:00:00', 'normal');
 
+-- Selects na tabela das leituras do sensor
 SELECT * FROM leituraSensor;
 
 SELECT * FROM leituraSensor WHERE situacao = 'atenção';
 
 SELECT * FROM leituraSensor WHERE ppm > 1000;
 
+SELECT concat('O sensor ', idsensor, ' captou um ppm de ', ppm, ', na data de', dataHora, ', e sua situação atual é ', situacao) AS Leitura FROM leiturasensor;
+
+-- SELECTS
+
+-- Selects na tabela cadastro
+SELECT * FROM cadastro;
+-- Clientes com situação cadastral ativa
+SELECT * FROM cadastro WHERE situacaoMonitoramento = 'Ativo';
+-- Clientes da cidade de São Paulo
+SELECT * FROM cadastro WHERE cidade = 'Sao Paulo';
+-- Select descritivo para o leitor
+SELECT concat('O estabelecimento ', estabelecimento, ' do representante ', responsavel, ', residido na cidade de ', cidade, ', está com a situação dos senores ', situacaoMonitoramento) as 'Situação cadastral' from cadastro;
+
+-- Selects na tabela sensor
+SELECT * FROM sensor;
+-- Sensores onde a data de instalação é após o dia 01/08/2026
+SELECT * FROM sensor WHERE dataInstalacao > '2026-08-01';
+-- Sensores que o status é "Manutenção"
+SELECT * FROM sensor WHERE statusSensor = 'Manutencao';
+-- Select com um texto descritivo
+select concat('O sensor ', idsensor, ' do modelo', modelosensor, ', está instalado em ', localinstalacao, ', desde o dia ', datainstalacao, ', tendo sido feita a última manutenção no dia ', ultimaManutencao, ', e seu status atual é ', statussensor) as 'Informações do sensor' from sensor;
+
+-- Selects na tabela das leituras do sensor
+SELECT * FROM leituraSensor;
+-- Busca leituras que 
+SELECT * FROM leituraSensor WHERE situacao = 'atenção';
+-- Leituras que ppm está maior que 1000
+SELECT * FROM leituraSensor WHERE ppm > 1000;
+-- Select como um texto descritivo
 SELECT concat('O sensor ', idsensor, ' captou um ppm de ', ppm, ', na data de', dataHora, ', e sua situação atual é ', situacao) AS Leitura FROM leiturasensor;
