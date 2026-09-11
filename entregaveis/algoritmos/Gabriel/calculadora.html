@@ -1,27 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora financeira</title>
 </head>
 <body>
-    <span>Insira a área da sua cozinha:</span>
+    <h1>Calculadora de custos em caso de acidente</h1>
+    <label for="ipt_area">Insira a área do espaço a ser observada:</label>
     <input type="text" id="ipt_area">
     <br>
-    <i>obs.: Cada sensor cobre uma área de  m²</i>
+    <i>obs.: Cada opera em uma distância de 20 cm a 50 cm da fonte</i>
     <br><br>
-    <span>Possui seguro?</span>
-    <input type="text" id="ipt_seguro" placeholder="sim ou não" >
+    <label for="opt_seguro">Possui seguro?</label>
+    <select name="" id="opt_seguro">
+        <option selected disabled>Selecione uma opção</option>
+        <option>Sim</option>
+        <option>Não</option>
+    </select>
     <br>
     <span>Se sim, quanto seu seguro cobre?</span>
     <input type="text" id="ipt_cobertura">
     <br><br>
-    <span></span>
-    <input type="text" id="ipt_">
+    <button onclick="calcular()">Calcular custos</button>
     <br><br>
+    <div id="div_mensagem"></div>
 </body>
 </html>
 <script>
+    function calcular() {
+        let area = Number(ipt_area.value);
+        let seguro = opt_seguro.value;
+        let cobertura = Number(ipt_cobertura.value);
 
+        if (area <= 0) {
+            alert("[ERROR] INSIRA UM VALOR VÁLIDO");
+        } else {
+            let prejuizoTotal = area * 500;
+            let valorPagoPeloSeguro = 0;
+
+            if (seguro == "Sim") {
+                valorPagoPeloSeguro = cobertura;
+            }
+
+            let prejuizoFinal = prejuizoTotal - valorPagoPeloSeguro;
+            let porcentagemCoberta = (valorPagoPeloSeguro / prejuizoTotal) * 100;
+
+            div_mensagem.innerHTML = `
+                <h2>Resultado da Simulação</h2>
+                Área a ser observada: ${area} m² <br>
+                Estimativa de prejuízo total: R$ ${prejuizoTotal.toFixed(2)} <br>
+                Valor coberto pelo seguro: R$ ${valorPagoPeloSeguro.toFixed(2)} (${porcentagemCoberta.toFixed(2)}%) <br><br>
+                <b>Impacto financeiro do seu bolso: R$ ${prejuizoFinal.toFixed(2)}</b>
+            `;
+        }
+    }
 </script>
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
