@@ -58,3 +58,11 @@ SELECT * FROM sensor2;
 
 SELECT * FROM usuarios;
 
+SELECT concat('O colaborador ', nome_completo, ' de ', email, ', tem acesso restringido pois ele é um ',cat_usuario) as 'Responsável e cargo' from usuarios;
+
+SELECT concat('O sensor ',sensor_id, ' está sob ', tipo_manutencao, ', agendada para o dia ',data_agendada) as 'Situação sensor' from manutencao;
+
+SELECT concat('O sensor ',num_sensor, ' registrou uma concentração de ', valor_ppm, 'ppm e emitiu o alerta como ',tipo_alerta) as 'Leitura sensor' from sensor2;
+
+
+
